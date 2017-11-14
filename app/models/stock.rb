@@ -1,4 +1,7 @@
 class Stock < ActiveRecord::Base
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
   def find_by_ticker(ticker)
     where(ticker: ticker).first
   end
@@ -49,7 +52,7 @@ class Stock < ActiveRecord::Base
         uri = URI(url)
         response = Net::HTTP.get(uri)
         data = JSON.parse(response)
-  
+        
         # Get the actual historical data
         historical_data = data['Time Series (1min)']
         
